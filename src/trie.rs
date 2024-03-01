@@ -330,6 +330,14 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     }
 }
 
+impl<'a, K: Clone + Ord, V: Clone> IntoIterator for &'a Trie<K, V> {
+    type IntoIter = TrieIterator<'a, K, V>;
+    type Item = (std::vec::Vec<K>, V);
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
+    }
+}
+
 /// Implement the `Default` trait for `Trie` since we have a constructor that does not need arguments
 impl<T: Eq + Ord + Clone, U: Clone> Default for Trie<T, U> {
     fn default() -> Self {
