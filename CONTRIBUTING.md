@@ -57,7 +57,7 @@ cargo doc --all --all-features
 
 ### ⏱️ Benchmark
 
-Running benchmarks requires to enable rust nightly: `rustup default nightly`
+Running benchmarks requires to enable rust nightly: `rustup override set nightly`
 
 ```bash
 cargo bench

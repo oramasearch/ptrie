@@ -77,10 +77,30 @@ mod tests {
 
         t.insert(test.clone(), String::from("test"));
         t.insert(tes.clone(), String::from("tes"));
-        for (k, v) in t.iter() {
+        // TODO: for (k, v) in &t {
+        for (k, v) in &t {
             assert!(std::str::from_utf8(&k).unwrap().starts_with("tes"));
             assert!(v.starts_with("tes"));
         }
+    }
+
+    #[test]
+    fn test_remove() {
+        let mut trie = Trie::new();
+        trie.insert("hello".bytes(), 1);
+        trie.insert("hell".bytes(), 2);
+        trie.insert("h".bytes(), 3);
+
+        assert_eq!(trie.remove("hello".bytes()), Some(1));
+        assert_eq!(trie.get("hello".bytes()), None);
+        assert_eq!(trie.get("hell".bytes()), Some(&2));
+        assert_eq!(trie.get("h".bytes()), Some(&3));
+
+        assert_eq!(trie.remove("h".bytes()), Some(3));
+        assert_eq!(trie.get("h".bytes()), None);
+        assert_eq!(trie.get("hell".bytes()), Some(&2));
+
+        assert_eq!(trie.remove("nonexistent".bytes()), None);
     }
 
     #[cfg(feature = "serde")]

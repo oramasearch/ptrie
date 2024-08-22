@@ -296,6 +296,122 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
         self.root.insert(key, value);
     }
 
+    /// Removes a key from the trie, if it exists.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ptrie::Trie;
+    ///
+    /// let mut t = Trie::new();
+    /// let data = "test".bytes();
+    /// t.insert(data.clone(), 42);
+    /// assert!(t.contains_key(data.clone()));
+    ///
+    /// t.remove(data.clone());
+    /// assert!(!t.contains_key(data));
+    /// t.remove("toto".bytes());
+    /// ```
+    pub fn remove<I: Iterator<Item = K>>(&mut self, key: I) -> Option<V> {
+        Self::remove_recursive(&mut self.root, key)
+    }
+
+    fn remove_recursive<I: Iterator<Item = K>>(node: &mut TrieNode<K, V>, mut key: I) -> Option<V> {
+        if let Some(k) = key.next() {
+            if let Some(index) = node.children.iter().position(|(key_part, _)| key_part == &k) {
+                let child = &mut node.children[index];
+                let result = Self::remove_recursive(&mut child.1, key);
+
+                // If the child node is now empty, remove it
+                if child.1.value.is_none() && child.1.children.is_empty() {
+                    node.children.remove(index);
+                }
+
+                return result;
+            } else {
+                // Key part not found
+                return None;
+            }
+        }
+
+        // Reached the node corresponding to the full key
+        node.value.take()
+    }
+
+    // pub fn remove<I: Iterator<Item = K>>(&mut self, key: I) -> Option<V> {
+    //     let root = &mut self.root;
+    //     self.remove_recursive(root, key)
+    // }
+
+    // fn remove_recursive<I: Iterator<Item = K>>(
+    //     &mut self,
+    //     node: &mut TrieNode<K, V>,
+    //     mut key: I,
+    // ) -> Option<V> {
+    //     if let Some(k) = key.next() {
+    //         // If the next part of the key exists in the children, recurse deeper
+    //         if let Some((_, child)) = node.children.iter_mut().find(|(key_part, _)| key_part == &k) {
+    //             let result = self.remove_recursive(child, key);
+
+    //             // If the child is now empty (no value and no children), remove it
+    //             if child.value.is_none() && child.children.is_empty() {
+    //                 node.children.retain(|(key_part, _)| key_part != &k);
+    //             }
+    //             return result;
+    //         } else {
+    //             // If the key is not found, return None
+    //             return None;
+    //         }
+    //     }
+
+    //     // We've reached the node corresponding to the full key
+    //     node.value.take()
+    // }
+
+    // /// Removes a key from the trie
+    // ///
+    // /// # Example
+    // ///
+    // /// ```rust
+    // /// use ptrie::Trie;
+    // ///
+    // /// let mut t = Trie::new();
+    // /// let data = "test".bytes();
+    // /// t.insert(data.clone(), 42);
+    // /// assert!(t.contains_key(data.clone()));
+    // /// t.remove(data.clone());
+    // /// assert!(!t.contains_key(data));
+    // /// ```
+    // pub fn remove<I: Iterator<Item = K>>(&mut self, key: I) -> Option<V> {
+    //     let mut current = &mut self.root;
+    //     let mut path = Vec::new();
+
+    //     // Traverse the trie to find the node
+    //     for k in key {
+    //         if let Some(index) = current.children.iter().position(|(ckey, _)| ckey == &k) {
+    //             path.push((current, index));
+    //             current = &mut current.children[index].1;
+    //         } else {
+    //             return None; // Key not found
+    //         }
+    //     }
+
+    //     // Remove the value from the leaf node
+    //     let value = current.value.take();
+
+    //     // Remove unnecessary nodes
+    //     while let Some((parent, child_index)) = path.pop() {
+    //         if current.children.is_empty() && current.value.is_none() {
+    //             parent.children.remove(child_index);
+    //         } else {
+    //             break;
+    //         }
+    //         current = parent;
+    //     }
+
+    //     value
+    // }
+
     /// Finds the node in the `Trie` for a given key
     ///
     /// Internal API
