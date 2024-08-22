@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.1](https://github.com/vemonet/ptrie/compare/v0.7.0..v0.7.1) - 2024-08-22
+
+### ⚙️ Miscellaneous Tasks
+
+- Update changelog - ([68db9f7](https://github.com/vemonet/ptrie/commit/68db9f73eeacd33096baf811d9ce6e1a01aa0567))
+- Bump version to 0.7.1 - ([c4ea8bb](https://github.com/vemonet/ptrie/commit/c4ea8bbb1258c3ecd5ea3e94ac8c6a0479cb5318))
+
+### ⛰️ Features
+
+- Add .remove(key) method, closes https://github.com/vemonet/ptrie/issues/1 - ([c4707ae](https://github.com/vemonet/ptrie/commit/c4707aea3002e88952a3dc53ba1bb13014b34648))
+
+### 🚜 Refactor
+
+- Small refactor - ([1c9e3cf](https://github.com/vemonet/ptrie/commit/1c9e3cfc131b075339a62c61e590f83bf03faa2f))
+
 ## [0.7.0](https://github.com/vemonet/ptrie/compare/v0.6.0..v0.7.0) - 2023-12-23
 
 ### ⚙️ Miscellaneous Tasks
