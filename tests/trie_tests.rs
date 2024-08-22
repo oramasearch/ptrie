@@ -77,7 +77,6 @@ mod tests {
 
         t.insert(test.clone(), String::from("test"));
         t.insert(tes.clone(), String::from("tes"));
-        // TODO: for (k, v) in &t {
         for (k, v) in &t {
             assert!(std::str::from_utf8(&k).unwrap().starts_with("tes"));
             assert!(v.starts_with("tes"));

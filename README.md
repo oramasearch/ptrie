@@ -49,11 +49,18 @@ trie.insert("ab".bytes(), "AB");
 trie.insert("abc".bytes(), "ABC");
 trie.insert("abcde".bytes(), "ABCDE");
 
+// Find all potential prefixes
 let prefixes = trie.find_prefixes("abcd".bytes());
 assert_eq!(prefixes, vec![&"A", &"AB", &"ABC"]);
 
+// Find the longest prefix
 let longest = trie.find_longest_prefix("abcd".bytes());
 assert_eq!(longest, Some("ABC").as_ref());
+
+// Find longest with length
+if let Some((length, prefix)) = trie.find_longest_prefix_len("abcd".bytes()) {
+    println!("Longest prefix: {} {}", prefix, length);
+}
 ```
 
 ### 🔍 Find postfixes
@@ -85,14 +92,20 @@ let mut trie = Trie::new();
 trie.insert("app".bytes(), "App");
 trie.insert("applet".bytes(), "Applet");
 
+// Get a key
 assert!(trie.contains_key("app".bytes()));
 assert!(!trie.contains_key("not_existing_key".bytes()));
 assert_eq!(trie.get("app".bytes()), Some("App").as_ref());
 assert_eq!(trie.get("none".bytes()), None.as_ref());
 
-for (k, v) in trie.iter() {
+// Iterate the trie
+for (k, v) in &trie {
     println!("kv: {:?} {}", k, v);
 }
+
+// Remove a key
+trie.remove("app".bytes());
+assert!(!trie.contains_key("app".bytes()));
 ```
 
 ## 🏷️ Features
