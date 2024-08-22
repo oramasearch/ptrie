@@ -173,6 +173,43 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
         }
     }
 
+    /// Finds the longest prefix and it's length in the `Trie` for a given string.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ptrie::Trie;
+    ///
+    /// let mut trie = Trie::default();
+    /// assert_eq!(trie.find_longest_prefix_len("http://purl.obolibrary.org/obo/DOID_1234".bytes()), None);
+    /// trie.insert("http://purl.obolibrary.org/obo/DOID_".bytes(), "doid");
+    /// trie.insert("http://purl.obolibrary.org/obo/".bytes(), "obo");
+    ///
+    /// assert_eq!(trie.find_longest_prefix_len("http://purl.obolibrary.org/obo/DOID_1234".bytes()), Some((36, &"doid")));
+    /// assert_eq!(trie.find_longest_prefix_len("http://purl.obolibrary.org/obo/1234".bytes()), Some((31, &"obo")));
+    /// assert_eq!(trie.find_longest_prefix_len("notthere".bytes()), None);
+    /// assert_eq!(trie.find_longest_prefix_len("httno".bytes()), None);
+    /// ```
+    pub fn find_longest_prefix_len<I: Iterator<Item = K>>(&self, key: I) -> Option<(usize, &V)> {
+        {
+            let mut current = &self.root;
+            let mut len = 0;
+            let mut last_value: Option<(usize, &V)> = None;
+            for k in key {
+                if let Some((_, next_node)) = current.children.iter().find(|(key, _)| key == &k) {
+                    len += 1;
+                    if next_node.value.is_some() {
+                        last_value = next_node.value.as_ref().map(|v| (len, v));
+                    }
+                    current = next_node;
+                } else {
+                    break;
+                }
+            }
+            last_value
+        }
+    }
+
     /// Returns a list of all strings in the `Trie` that start with the given prefix.
     ///
     /// # Example
@@ -293,6 +330,14 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     }
 }
 
+impl<'a, K: Clone + Ord, V: Clone> IntoIterator for &'a Trie<K, V> {
+    type IntoIter = TrieIterator<'a, K, V>;
+    type Item = (std::vec::Vec<K>, V);
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
+    }
+}
+
 /// Implement the `Default` trait for `Trie` since we have a constructor that does not need arguments
 impl<T: Eq + Ord + Clone, U: Clone> Default for Trie<T, U> {
     fn default() -> Self {
@@ -332,5 +377,22 @@ impl<'a, K: Eq + Ord + Clone, V: Clone> Iterator for TrieIterator<'a, K, V> {
             }
         }
         None
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+
+    fn longest_prefix() {
+        use super::Trie;
+
+        let mut trie = Trie::default();
+        trie.insert("hello".bytes(), 1u8);
+        trie.insert("h".bytes(), 2u8);
+
+        assert_eq!(trie.find_longest_prefix_len("hello".bytes()), Some((5, &1)));
+        assert_eq!(trie.find_longest_prefix_len("h".bytes()), Some((1, &2)));
+        assert_eq!(trie.find_longest_prefix_len("he".bytes()), Some((1, &2)));
     }
 }
