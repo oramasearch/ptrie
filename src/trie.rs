@@ -256,6 +256,18 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
         postfixes
     }
 
+    pub fn find_postfixes_with_current<I: Iterator<Item = K>>(&self, prefix: I) -> (Option<&V>, Vec<&V>) {
+        let mut postfixes = Vec::new();
+        let mut exact = None;
+        if let Some(node) = self.find_node(prefix) {
+            exact = node.value.as_ref();
+            for (_, child) in &node.children {
+                self.collect_values(child, &mut postfixes);
+            }
+        }
+        (exact, postfixes)
+    }
+
     #[allow(clippy::only_used_in_recursion)]
     fn collect_values<'a>(&self, node: &'a TrieNode<K, V>, values: &mut Vec<&'a V>) {
         if let Some(ref value) = node.value {
