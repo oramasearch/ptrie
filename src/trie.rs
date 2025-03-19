@@ -256,7 +256,49 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
         postfixes
     }
 
-    pub fn find_postfixes_with_current<I: Iterator<Item = K>>(&self, prefix: I) -> (Option<&V>, Vec<&V>) {
+    /// Returns a list of all keys with an associated value in the `Trie` that start with the given prefix.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ptrie::Trie;
+    ///
+    /// let mut trie = Trie::new();
+    /// trie.insert("app".bytes(), "App");
+    /// trie.insert("apple".bytes(), "Apple");
+    /// trie.insert("applet".bytes(), "Applet");
+    /// trie.insert("apricot".bytes(), "Apricot");
+    ///
+    /// let strings: Vec<_> = trie.scan_postfix_keys("app".bytes()).collect();
+    /// assert_eq!(strings, vec![
+    ///     "app".bytes().collect::<Vec<_>>(),
+    ///     "apple".bytes().collect::<Vec<_>>(),
+    ///     "applet".bytes().collect::<Vec<_>>()
+    /// ]);
+    /// let strings: Vec<_> = trie.scan_postfix_keys("xxx".bytes()).collect();
+    /// assert_eq!(strings, Vec::<Vec<u8>>::new());
+    /// ```
+    pub fn scan_postfix_keys<I: Iterator<Item = K>>(&self, prefix: I) -> KeyTrieIterator<'_, K, V> {
+        let (prefix, node) = match self.root.find_node_with_key(vec![], prefix) {
+            Some(x) => x,
+            None => {
+                return KeyTrieIterator {
+                    iter: TrieIterator { stack: vec![] },
+                }
+            }
+        };
+
+        KeyTrieIterator {
+            iter: TrieIterator {
+                stack: vec![(node, prefix)],
+            },
+        }
+    }
+
+    pub fn find_postfixes_with_current<I: Iterator<Item = K>>(
+        &self,
+        prefix: I,
+    ) -> (Option<&V>, Vec<&V>) {
         let mut postfixes = Vec::new();
         let mut exact = None;
         if let Some(node) = self.find_node(prefix) {
@@ -525,6 +567,19 @@ impl<'a, K: Eq + Ord + Clone, V: Clone> Iterator for TrieIterator<'a, K, V> {
             }
         }
         None
+    }
+}
+
+/// Iterator for the keys in `Trie` struct
+pub struct KeyTrieIterator<'a, K: Eq + Ord + Clone, V> {
+    iter: TrieIterator<'a, K, V>,
+}
+
+impl<'a, K: Eq + Ord + Clone, V: Clone> Iterator for KeyTrieIterator<'a, K, V> {
+    // Yield keys only
+    type Item = Vec<K>;
+    fn next(&mut self) -> Option<Self::Item> {
+        self.iter.next().map(|(key, _)| key)
     }
 }
 

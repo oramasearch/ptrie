@@ -36,6 +36,20 @@ impl<K: Eq + Ord + Clone, V: Clone> TrieNode<K, V> {
         }
     }
 
+    pub fn find_node_with_key<I: Iterator<Item = K>>(
+        &self,
+        mut prev: Vec<K>,
+        mut key: I,
+    ) -> Option<(Vec<K>, &Self)> {
+        if let Some(p) = key.next() {
+            let child = self.children.iter().find(|c| c.0 == p)?;
+            prev.push(p);
+            child.1.find_node_with_key(prev, key)
+        } else {
+            Some((prev, self))
+        }
+    }
+
     /// Recursively find a node searching through children
     pub fn find_node<I: Iterator<Item = K>>(&self, mut key: I) -> Option<&Self> {
         if let Some(p) = key.next() {

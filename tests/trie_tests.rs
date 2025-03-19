@@ -102,6 +102,43 @@ mod tests {
         assert_eq!(trie.remove("nonexistent".bytes()), None);
     }
 
+    #[test]
+    fn test_scan_postfixes() {
+        let mut trie = Trie::new();
+        trie.insert("hello".bytes(), 1);
+        trie.insert("hell".bytes(), 2);
+        trie.insert("h".bytes(), 3);
+
+        let output = trie.scan_postfix_keys("".bytes()).collect::<Vec<_>>();
+        assert_eq!(output.len(), 3);
+        assert_eq!(output[0], "h".bytes().collect::<Vec<_>>());
+        assert_eq!(output[1], "hell".bytes().collect::<Vec<_>>());
+        assert_eq!(output[2], "hello".bytes().collect::<Vec<_>>());
+
+        let output = trie.scan_postfix_keys("h".bytes()).collect::<Vec<_>>();
+        assert_eq!(output.len(), 3);
+        assert_eq!(output[0], "h".bytes().collect::<Vec<_>>());
+        assert_eq!(output[1], "hell".bytes().collect::<Vec<_>>());
+        assert_eq!(output[2], "hello".bytes().collect::<Vec<_>>());
+
+        let output = trie.scan_postfix_keys("he".bytes()).collect::<Vec<_>>();
+        assert_eq!(output.len(), 2);
+        assert_eq!(output[0], "hell".bytes().collect::<Vec<_>>());
+        assert_eq!(output[1], "hello".bytes().collect::<Vec<_>>());
+
+        let output = trie.scan_postfix_keys("hell".bytes()).collect::<Vec<_>>();
+        assert_eq!(output.len(), 2);
+        assert_eq!(output[0], "hell".bytes().collect::<Vec<_>>());
+        assert_eq!(output[1], "hello".bytes().collect::<Vec<_>>());
+
+        let output = trie.scan_postfix_keys("hello".bytes()).collect::<Vec<_>>();
+        assert_eq!(output.len(), 1);
+        assert_eq!(output[0], "hello".bytes().collect::<Vec<_>>());
+
+        let output = trie.scan_postfix_keys("hellow".bytes()).collect::<Vec<_>>();
+        assert_eq!(output.len(), 0);
+    }
+
     #[cfg(feature = "serde")]
     #[test]
     fn serde_serialize() {
