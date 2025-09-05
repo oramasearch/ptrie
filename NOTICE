@@ -1,0 +1,14 @@
+Copyright (c) 2025 oramasearch.com
+
+This project, oramacore, includes code derived from the ptrie project, originally authored by:
+- "Alexander Serebryakov <alex.serebr@gmail.com>"
+- "Vincent Emonet <vincent.emonet@gmail.com>"
+
+The original source code is available at:
+https://github.com/vemonet/ptrie/tree/3666728f4d35036144f0f15a2fdc92b90ddb65e0
+
+The copied and modified files are licensed under another License (see LICENSE file). A copy of this license can be found in the LICENSE.old file included in this repository.
+
+The modifications made to the original code are part of oramacore, which is licensed under the license specified in the LICENSE file.
+
+No endorsement by the original authors is implied.

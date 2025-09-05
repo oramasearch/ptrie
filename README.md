@@ -2,6 +2,8 @@
   🎄 Prefix Trie
 </h1>
 
+NB: this is a fork of [ptrie](https://github.com/vemonet/ptrie) crate.
+
 <p align="center">
     <a href="https://crates.io/crates/ptrie">
         <img alt="Crates.io" src="https://img.shields.io/crates/v/ptrie" />
@@ -40,7 +42,7 @@ Results are sorted in ascending order of their length.
 You can return all prefixes in the trie that matches a given string, or directly retrieve the longest prefix.
 
 ```rust
-use ptrie::Trie;
+use oramacore_ptrie::Trie;
 
 let mut trie = Trie::new();
 
@@ -68,7 +70,7 @@ if let Some((length, prefix)) = trie.find_longest_prefix_len("abcd".bytes()) {
 You can also find all postfixes in the trie, e.g. all strings which have the given string as a prefix, and extends it.
 
 ```rust
-use ptrie::Trie;
+use oramacore_ptrie::Trie;
 
 let mut trie = Trie::new();
 
@@ -86,7 +88,7 @@ assert_eq!(strings, vec![&"App", &"Apple", &"Applet"]);
 The crate provides functions to check for the existence of a key, to retrieve the associated value, or iterate the trie nodes.
 
 ```rust
-use ptrie::Trie;
+use oramacore_ptrie::Trie;
 
 let mut trie = Trie::new();
 trie.insert("app".bytes(), "App");

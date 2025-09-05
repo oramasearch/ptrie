@@ -21,7 +21,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let t = Trie::<char, String>::new();
     /// ```
@@ -36,7 +36,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut t = Trie::new();
     /// let data = "test".bytes();
@@ -64,7 +64,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut t = Trie::new();
     /// let data = "test".bytes();
@@ -84,7 +84,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut t = Trie::new();
     /// let data = "test".bytes();
@@ -104,7 +104,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut t = Trie::new();
     /// let data = "test".bytes();
@@ -130,7 +130,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut trie = Trie::new();
     /// trie.insert("abc".bytes(), "ABC");
@@ -163,7 +163,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut trie = Trie::default();
     /// assert_eq!(trie.find_longest_prefix("http://purl.obolibrary.org/obo/DOID_1234".bytes()), None);
@@ -198,7 +198,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut trie = Trie::default();
     /// assert_eq!(trie.find_longest_prefix_len("http://purl.obolibrary.org/obo/DOID_1234".bytes()), None);
@@ -235,7 +235,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut trie = Trie::new();
     /// trie.insert("app".bytes(), "App");
@@ -261,7 +261,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut trie = Trie::new();
     /// trie.insert("app".bytes(), "App");
@@ -325,7 +325,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let t = Trie::<char, f64>::new();
     /// assert!(t.is_empty());
@@ -339,7 +339,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut t = Trie::new();
     /// let data = "test".bytes();
@@ -357,7 +357,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut t = Trie::new();
     /// let data = "test".bytes();
@@ -375,7 +375,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```rust
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut t = Trie::new();
     /// let data = "test".bytes();
@@ -447,7 +447,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     // /// # Example
     // ///
     // /// ```rust
-    // /// use ptrie::Trie;
+    // /// use  oramacore_ptrie::Trie;
     // ///
     // /// let mut t = Trie::new();
     // /// let data = "test".bytes();
@@ -502,7 +502,7 @@ impl<K: Eq + Ord + Clone, V: Clone> Trie<K, V> {
     /// # Example
     ///
     /// ```
-    /// use ptrie::Trie;
+    /// use  oramacore_ptrie::Trie;
     ///
     /// let mut t = Trie::new();
     /// let test = "test".bytes();
