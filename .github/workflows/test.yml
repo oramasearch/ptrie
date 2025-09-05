@@ -1,84 +1,48 @@
+name: Rust
 
-name: Tests
 on:
-  workflow_dispatch:
-  workflow_call:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - develop
   pull_request:
+    branches:
+      - main
+      - develop
+
+env:
+  CARGO_TERM_COLOR: always
 
 jobs:
-  clippy:
-    name: 📎 fmt and clippy
-    runs-on: ubuntu-latest
-    env:
-      CARGO_TERM_COLOR: always
+  build:
+    runs-on: [ubuntu-latest]
+
     steps:
       - uses: actions/checkout@v4
-      - run: |
-          rustup update
-          rustup toolchain install nightly
-          rustup default nightly
-          rustup component add clippy rustfmt
-      - run: cargo fmt -- --check
-      - run: cargo clippy --all --all-targets --all-features
-
-  test:
-    name: 🧪 Tests
-    runs-on: ubuntu-latest
-    env:
-      CARGO_TERM_COLOR: always
-    steps:
-      - uses: actions/checkout@v4
-      - run: cargo build --all-features
-      - run: cargo doc
-      - run: cargo test --all-features
-        env:
-          RUST_BACKTRACE: 1
-
-  cov:
-    name: ☂️ Coverage
-    runs-on: ubuntu-latest
-    container:
-      image: xd009642/tarpaulin:develop-nightly
-      options: --security-opt seccomp=unconfined
-    steps:
-      - uses: actions/checkout@v4
-      - name: Generate code coverage
-        run: cargo tarpaulin -p ptrie --doc --tests --out xml --all-features
-
-      - name: Upload to codecov.io
-        uses: codecov/codecov-action@v3
+      - name: apt-get update
+        run: sudo apt-get update
+      - name: apt-get install
+        run: |
+          sudo apt-get install -y libssl3 pkg-config libssl-dev g++ build-essential ca-certificates librocksdb-dev libgflags-dev libsnappy-dev zlib1g-dev libbz2-dev libzstd-dev libxml2-dev protobuf-compiler
+      - name: Install Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          fail_ci_if_error: false
-          token: ${{secrets.CODECOV_TOKEN}}
-
-  benchmark:
-    name: ⏱️ Benchmark
-    runs-on: ubuntu-latest
-    steps:
-    - run: |
-          rustup update
-          rustup toolchain install nightly
-          rustup default nightly
-          rustup component add clippy rustfmt
-
-    - name: Checkout commit last release
-      uses: actions/checkout@v4
-      with:
-        ref: b0bf31a097a3099ddbebd801154c8929525894ae
-        fetch-depth: 0
-
-    - name: Run benchmarks on previous commit
-      run: |
-        cargo bench
-        git checkout main
-
-    - name: Run benchmarks
-      run: cargo bench
-
-    - name: Upload benchmark results
-      uses: actions/upload-artifact@v4
-      with:
-        name: benchmark
-        path: target/criterion/
+          override: true
+          components: clippy, rustfmt
+          toolchain: 1.87.0
+          target: x86_64-unknown-linux-gnu
+          rustflags: ""
+      - name: Environment
+        run: |
+          gcc --version
+          g++ --version
+          rustc --version
+          cargo --version
+      - name: Check & Fmt & Clippy
+        run: |
+          cargo check
+          cargo fmt --all -- --check
+          cargo clippy
+      - name: Test
+        run: |
+          cargo test --all

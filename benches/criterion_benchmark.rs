@@ -18,7 +18,7 @@ fn generate_keys() -> Vec<String> {
 
 fn trie_benchmark(c: &mut Criterion) {
     c.bench_function("trie_match", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         t.insert(black_box("test".bytes()), black_box(String::from("test")));
         b.iter(|| {
             assert!(t.contains_key(black_box("test".bytes())));
@@ -26,7 +26,7 @@ fn trie_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("trie_mismatch", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         t.insert(black_box("test".bytes()), black_box(String::from("test")));
         b.iter(|| {
             assert!(!t.contains_key(black_box("tst".bytes())));
@@ -34,7 +34,7 @@ fn trie_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("trie_massive_match", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         let keys = generate_keys();
         for key in &keys {
             t.insert(black_box(key.bytes()), black_box(key.clone()));
@@ -47,7 +47,7 @@ fn trie_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("trie_massive_mismatch_on_0", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         let mismatching = String::from("0999");
         let keys = generate_keys();
         for key in &keys {
@@ -61,7 +61,7 @@ fn trie_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("trie_massive_mismatch_on_1", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         let mismatching = String::from("9099");
         let keys = generate_keys();
         for key in &keys {
@@ -75,7 +75,7 @@ fn trie_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("trie_massive_mismatch_on_2", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         let mismatching = String::from("9909");
         let keys = generate_keys();
         for key in &keys {
@@ -89,7 +89,7 @@ fn trie_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("trie_massive_mismatch_on_3", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         let mismatching = String::from("9990");
         let keys = generate_keys();
         for key in &keys {
@@ -103,7 +103,7 @@ fn trie_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("trie_prefixes_match", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         let keys = generate_keys();
         for key in &keys {
             t.insert(black_box(key.bytes()), black_box(key.clone()));
@@ -116,7 +116,7 @@ fn trie_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("trie_postfixes_match", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         let keys = generate_keys();
         for key in &keys {
             t.insert(black_box(key.bytes()), black_box(key.clone()));
@@ -129,7 +129,7 @@ fn trie_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("trie_prefix_longest_match", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         let keys = generate_keys();
         for key in &keys {
             t.insert(black_box(key.bytes()), black_box(key.clone()));
@@ -142,7 +142,7 @@ fn trie_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("trie_massive_prefixes_match", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         let keys = generate_keys();
         for key in &keys {
             t.insert(black_box(key.bytes()), black_box(key.clone()));
@@ -155,7 +155,7 @@ fn trie_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("trie_massive_longest_prefixes_match", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         let keys = generate_keys();
         for key in &keys {
             t.insert(black_box(key.bytes()), black_box(key.clone()));
@@ -168,7 +168,7 @@ fn trie_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("trie_massive_postfixes_match", |b| {
-        let mut t = ptrie::Trie::new();
+        let mut t = oramacore_ptrie::Trie::new();
         let keys = generate_keys();
         for key in &keys {
             t.insert(black_box(key.bytes()), black_box(key.clone()));

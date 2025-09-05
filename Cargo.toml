@@ -1,16 +1,12 @@
 [package]
-name = "ptrie"
-version = "0.7.1"
-authors = [
-    "Alexander Serebryakov <alex.serebr@gmail.com>",
-    "Vincent Emonet <vincent.emonet@gmail.com>",
-]
+name = "oramacore_ptrie"
+version = "0.1.0"
 description = """Generic trie data structure implementation (prefix tree) with support for different key and value types,
 and functions to search for common prefixes or postfixes."""
 keywords = ["trie", "data-structures", "generic", "prefix-tree"]
 categories = ["data-structures"]
-homepage = "https://github.com/vemonet/ptrie"
-repository = "https://github.com/vemonet/ptrie.git"
+homepage = "https://github.com/oramacore/oramacore_ptrie"
+repository = "https://github.com/vemonet/oramacore_ptrie.git"
 readme = "README.md"
 license-file = "LICENSE"
 

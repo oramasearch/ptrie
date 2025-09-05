@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use ptrie::Trie;
+    use oramacore_ptrie::Trie;
 
     #[test]
     fn new_trie_is_is_empty() {
