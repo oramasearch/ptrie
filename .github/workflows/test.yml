@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - develop
+      - releases
   pull_request:
     branches:
       - main
       - develop
+      - releases
 
 env:
   CARGO_TERM_COLOR: always
